@@ -4,12 +4,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Dorama } from './schemas/dorama.schema';
 import { Model } from 'mongoose';
 import { updateDoramaDTO } from './dto/update-dorama.dto';
+import { Episode } from '../episodes/schemas/episode.schema';
 
 @Injectable()
 export class DoramasService {
   constructor(
     @InjectModel(Dorama.name)
     private doramaModel: Model<Dorama>,
+    private episodeModel: Model<Episode>,
   ) {}
 
   async findOne(id: string): Promise<Dorama> {
@@ -21,6 +23,8 @@ export class DoramasService {
   }
 
   async create(createDoramaDto: CreateDoramaDTO): Promise<Dorama> {
+    new this.episodeModel(createDoramaDto.episodes).save();
+
     const dorama = new this.doramaModel(createDoramaDto);
     return dorama.save();
   }

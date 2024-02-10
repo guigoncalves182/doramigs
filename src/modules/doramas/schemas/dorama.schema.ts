@@ -1,21 +1,27 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import { Episode } from 'src/modules/episodes/schemas/espisode.schema';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Episode } from 'src/modules/episodes/schemas/episode.schema';
 
 export type DoramaDocument = HydratedDocument<Dorama>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Dorama {
   @Prop({ required: true })
-  name: string;
+  title: string;
 
   @Prop({ default: true })
-  active: boolean;
+  isActive: boolean;
 
   @Prop()
-  county: string;
+  rating: number;
 
   @Prop()
+  isOnAir: boolean;
+
+  @Prop()
+  originCountry: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Episode' })
   episodes: Episode[];
 }
 

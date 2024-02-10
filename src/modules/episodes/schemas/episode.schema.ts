@@ -3,13 +3,13 @@ import { HydratedDocument } from 'mongoose';
 
 export type EpisodeDocument = HydratedDocument<Episode>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Episode {
   @Prop({ required: true })
-  name: string;
+  title: string;
 
   @Prop()
-  duration: number;
+  durationInMinutes: number;
 
   @Prop()
   originalRelease: string;
