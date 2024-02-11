@@ -24,6 +24,11 @@ export class EpisodesService {
     return this.episodeModel.find();
   }
 
+  async findAllByDoramaId(doramaId: string): Promise<Episode[]> {
+    const { episode } = await this.doramaModel.findById(doramaId);
+    return this.episodeModel.find({ _id: episode });
+  }
+
   async create(
     createEpisodeDto: CreateEpisodeDTO,
     doramaId: string,

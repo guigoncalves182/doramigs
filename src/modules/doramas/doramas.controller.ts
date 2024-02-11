@@ -21,14 +21,14 @@ export class DoramasController {
     return this.doramasService.findAll();
   }
 
-  @Post()
-  create(@Body() createDoramaDTO: CreateDoramaDTO): Promise<Dorama> {
-    return this.doramasService.create(createDoramaDTO);
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Dorama> {
     return this.doramasService.findOne(id);
+  }
+
+  @Post()
+  create(@Body() createDoramaDTO: CreateDoramaDTO): Promise<Dorama> {
+    return this.doramasService.create(createDoramaDTO);
   }
 
   @Patch(':id')

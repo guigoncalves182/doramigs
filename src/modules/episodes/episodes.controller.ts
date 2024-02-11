@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreateEpisodeDTO } from './dto/create-episode.dto';
 import { UpdateEpisodeDTO } from './dto/update-episode.dto';
@@ -16,9 +17,19 @@ import { EpisodesService } from './episodes.service';
 export class EpisodesController {
   constructor(private readonly episodeService: EpisodesService) {}
 
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Episode> {
+    return this.episodeService.findOne(id);
+  }
+
   @Get()
   findAll(): Promise<Episode[]> {
     return this.episodeService.findAll();
+  }
+
+  @Get()
+  findAllByDoramaId(@Query('doramaId') doramaId: string): Promise<Episode[]> {
+    return this.episodeService.findAllByDoramaId(doramaId);
   }
 
   @Post(':doramaId')
@@ -30,11 +41,6 @@ export class EpisodesController {
       return this.episodeService.createMany(episodeService, doramaId);
 
     return this.episodeService.create(episodeService, doramaId);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Episode> {
-    return this.episodeService.findOne(id);
   }
 
   @Patch(':id')
