@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateDoramaDTO } from './dto/create-dorama.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Dorama } from './schemas/dorama.schema';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { updateDoramaDTO } from './dto/update-dorama.dto';
 import { Episode } from '../episodes/schemas/episode.schema';
 
@@ -17,27 +17,26 @@ export class DoramasService {
   ) {}
 
   async findOne(id: string): Promise<Dorama> {
-    return this.doramaModel.findById(id);
+    return await this.doramaModel.findById(id);
   }
 
   async findAll(): Promise<Dorama[]> {
-    return this.doramaModel.find();
+    return await this.doramaModel.find();
   }
 
   async create(createDoramaDto: CreateDoramaDTO): Promise<Dorama> {
-    const episodes: mongoose.Types.ObjectId[] = [];
+    const episodes = await this.episodeModel.insertMany(
+      createDoramaDto.episodes,
+    );
 
-    for (const e of createDoramaDto.episodes) {
-      const episode = await new this.episodeModel(e).save();
-      episodes.push(episode._id);
-    }
+    const episodeIds = episodes.map((episode) => episode._id);
 
-    const dorama = new this.doramaModel({
+    const dorama = await this.doramaModel.create({
       ...createDoramaDto,
-      episodes,
+      episodes: episodeIds,
     });
 
-    return dorama.save();
+    return dorama;
   }
 
   update(id: string, body: updateDoramaDTO): void {
