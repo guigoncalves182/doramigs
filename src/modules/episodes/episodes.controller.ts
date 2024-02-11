@@ -21,9 +21,15 @@ export class EpisodesController {
     return this.episodeService.findAll();
   }
 
-  @Post()
-  create(@Body() episodeService: CreateEpisodeDTO): Promise<Episode> {
-    return this.episodeService.create(episodeService);
+  @Post(':doramaId')
+  create(
+    @Param('doramaId') doramaId: string,
+    @Body() episodeService: CreateEpisodeDTO | CreateEpisodeDTO[],
+  ): Promise<Episode | Episode[]> {
+    if (Array.isArray(episodeService))
+      return this.episodeService.createMany(episodeService, doramaId);
+
+    return this.episodeService.create(episodeService, doramaId);
   }
 
   @Get(':id')

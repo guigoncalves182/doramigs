@@ -21,8 +21,8 @@ export class Dorama {
   @Prop()
   originCountry: string;
 
-  @Prop({ type: mongoose.Types.ObjectId, ref: 'Episode' })
-  episodes: Episode[];
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Episode' }] })
+  episode: Episode[];
 }
 
 export const DoramaSchema = SchemaFactory.createForClass(Dorama);

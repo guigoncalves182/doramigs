@@ -4,32 +4,59 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { CreateEpisodeDTO } from './dto/create-episode.dto';
 import { UpdateEpisodeDTO } from './dto/update-episode.dto';
+import { Dorama } from '../doramas/schemas/dorama.schema';
 
 @Injectable()
 export class EpisodesService {
   constructor(
     @InjectModel(Episode.name)
-    private doramaModel: Model<Episode>,
+    private episodeModel: Model<Episode>,
+
+    @InjectModel(Dorama.name)
+    private doramaModel: Model<Dorama>,
   ) {}
 
   async findOne(id: string): Promise<Episode> {
-    return this.doramaModel.findById(id);
+    return this.episodeModel.findById(id);
   }
 
   async findAll(): Promise<Episode[]> {
-    return this.doramaModel.find();
+    return this.episodeModel.find();
   }
 
-  async create(createDoramaDto: CreateEpisodeDTO): Promise<Episode> {
-    const dorama = new this.doramaModel(createDoramaDto);
-    return dorama.save();
+  async create(
+    createEpisodeDto: CreateEpisodeDTO,
+    doramaId: string,
+  ): Promise<Episode> {
+    const episode = await this.episodeModel.create(createEpisodeDto);
+
+    this.doramaModel
+      .updateOne({ _id: doramaId }, { $push: { episode: episode._id } })
+      .exec();
+
+    return episode;
+  }
+
+  async createMany(
+    createEpisodeDto: CreateEpisodeDTO[],
+    doramaId: string,
+  ): Promise<Episode[]> {
+    const episodes = await this.episodeModel.insertMany(createEpisodeDto);
+
+    episodes.map((episode) => {
+      return this.doramaModel
+        .updateOne({ _id: doramaId }, { $push: { episode: episode._id } })
+        .exec();
+    });
+
+    return episodes;
   }
 
   update(id: string, body: UpdateEpisodeDTO): void {
-    this.doramaModel.updateOne({ _id: id }, body).exec();
+    this.episodeModel.updateOne({ _id: id }, body).exec();
   }
 
   remove(id: string): void {
-    this.doramaModel.deleteOne({ _id: id }).exec();
+    this.episodeModel.deleteOne({ _id: id }).exec();
   }
 }
