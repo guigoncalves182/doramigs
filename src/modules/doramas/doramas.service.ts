@@ -13,11 +13,11 @@ export class DoramasService {
   ) {}
 
   async findOne(id: string): Promise<Dorama> {
-    return await this.doramaModel.findById(id).populate('episode').exec();
+    return await this.doramaModel.findById(id).populate('episodes').exec();
   }
 
   async findAll(): Promise<Dorama[]> {
-    return await this.doramaModel.find().populate('episode').exec();
+    return await this.doramaModel.find().populate('episodes').exec();
   }
 
   async create(createDoramaDto: CreateDoramaDTO): Promise<Dorama> {

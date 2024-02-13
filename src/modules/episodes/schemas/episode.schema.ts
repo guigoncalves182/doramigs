@@ -13,6 +13,15 @@ export class Episode {
 
   @Prop()
   originalRelease: string;
+
+  @Prop()
+  synopsis: string;
+
+  @Prop({ required: true })
+  season: number;
+
+  @Prop({ required: true })
+  index: number;
 }
 
 export const EpisodeSchema = SchemaFactory.createForClass(Episode);

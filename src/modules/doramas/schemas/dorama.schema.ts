@@ -22,7 +22,20 @@ export class Dorama {
   originCountry: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Episode' }] })
-  episode: Episode[];
+  episodes: Episode[];
+
+  @Prop()
+  synopsis: string;
+
+  // TODO Create a colection based on streaming services and url to them
+  @Prop()
+  whereToWatch: string[];
+
+  @Prop()
+  tags: string[];
+
+  @Prop()
+  imageCover: string;
 }
 
 export const DoramaSchema = SchemaFactory.createForClass(Dorama);

@@ -25,8 +25,8 @@ export class EpisodesService {
   }
 
   async findAllByDoramaId(doramaId: string): Promise<Episode[]> {
-    const { episode } = await this.doramaModel.findById(doramaId);
-    return this.episodeModel.find({ _id: episode });
+    const { episodes } = await this.doramaModel.findById(doramaId);
+    return this.episodeModel.findById(episodes);
   }
 
   async create(
@@ -36,7 +36,7 @@ export class EpisodesService {
     const episode = await this.episodeModel.create(createEpisodeDto);
 
     this.doramaModel
-      .updateOne({ _id: doramaId }, { $push: { episode: episode._id } })
+      .updateOne({ _id: doramaId }, { $push: { episodes: episode._id } })
       .exec();
 
     return episode;
@@ -50,7 +50,7 @@ export class EpisodesService {
 
     episodes.map((episode) => {
       return this.doramaModel
-        .updateOne({ _id: doramaId }, { $push: { episode: episode._id } })
+        .updateOne({ _id: doramaId }, { $push: { episodes: episode._id } })
         .exec();
     });
 
