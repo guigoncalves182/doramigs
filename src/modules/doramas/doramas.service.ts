@@ -3,7 +3,7 @@ import { CreateDoramaDTO } from './dto/create-dorama.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Dorama } from './schemas/dorama.schema';
 import { Model } from 'mongoose';
-import { updateDoramaDTO } from './dto/update-dorama.dto';
+import { UpdateDoramaDTO } from './dto/update-dorama.dto';
 
 @Injectable()
 export class DoramasService {
@@ -24,7 +24,7 @@ export class DoramasService {
     return await this.doramaModel.create(createDoramaDto);
   }
 
-  update(id: string, body: updateDoramaDTO): void {
+  update(id: string, body: UpdateDoramaDTO): void {
     this.doramaModel.updateOne({ _id: id }, body).exec();
   }
 

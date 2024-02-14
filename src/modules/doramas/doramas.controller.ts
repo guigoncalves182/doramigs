@@ -10,7 +10,7 @@ import {
 import { DoramasService } from './doramas.service';
 import { CreateDoramaDTO } from './dto/create-dorama.dto';
 import { Dorama } from './schemas/dorama.schema';
-import { updateDoramaDTO } from './dto/update-dorama.dto';
+import { UpdateDoramaDTO } from './dto/update-dorama.dto';
 
 @Controller('doramas')
 export class DoramasController {
@@ -32,7 +32,7 @@ export class DoramasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body: updateDoramaDTO): void {
+  update(@Param('id') id: string, @Body() body: UpdateDoramaDTO): void {
     return this.doramasService.update(id, body);
   }
 
