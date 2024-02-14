@@ -1,1 +1,1 @@
-export const TAGS = ['Drama', 'Comedy', 'Terror'];
+export const EPISODE_TAGS = ['Drama', 'Comedy', 'Terror'];

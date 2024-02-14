@@ -6,8 +6,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { TAGS } from 'src/consts/tags';
-import { TTag } from 'src/interfaces/tags';
+import { EPISODE_TAGS } from 'src/consts/tags';
+import { TEpisodeTag } from 'src/interfaces/episodeTag';
 
 export class CreateDoramaDTO {
   @IsString()
@@ -35,8 +35,8 @@ export class CreateDoramaDTO {
 
   @IsArray()
   @IsOptional()
-  @IsIn(TAGS, { each: true })
-  readonly tags: TTag[];
+  @IsIn(EPISODE_TAGS, { each: true })
+  readonly tags: TEpisodeTag[];
 
   @IsString()
   @IsOptional()

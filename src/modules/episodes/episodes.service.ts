@@ -17,16 +17,16 @@ export class EpisodesService {
   ) {}
 
   async findOne(id: string): Promise<Episode> {
-    return this.episodeModel.findById(id);
+    return this.episodeModel.findById(id).populate('dishes');
   }
 
   async findAll(): Promise<Episode[]> {
-    return this.episodeModel.find();
+    return this.episodeModel.find().populate('dishes');
   }
 
   async findAllByDoramaId(doramaId: string): Promise<Episode[]> {
     const { episodes } = await this.doramaModel.findById(doramaId);
-    return this.episodeModel.findById(episodes);
+    return this.episodeModel.findById(episodes).populate('dishes');
   }
 
   async create(

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Dish } from 'src/modules/dishes/schemas/dish.schema';
 
 export type EpisodeDocument = HydratedDocument<Episode>;
 
@@ -22,6 +23,9 @@ export class Episode {
 
   @Prop({ required: true })
   index: number;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Dish.name }] })
+  dishes: Dish[];
 }
 
 export const EpisodeSchema = SchemaFactory.createForClass(Episode);

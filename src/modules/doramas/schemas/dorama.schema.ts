@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { TTag } from 'src/interfaces/tags';
+import { TEpisodeTag } from 'src/interfaces/episodeTag';
 import { Episode } from 'src/modules/episodes/schemas/episode.schema';
 
 export type DoramaDocument = HydratedDocument<Dorama>;
@@ -22,7 +22,7 @@ export class Dorama {
   @Prop()
   originCountry: string;
 
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Episode' }] })
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: Episode.name }] })
   episodes: Episode[];
 
   @Prop()
@@ -32,7 +32,7 @@ export class Dorama {
   whereToWatch: string[];
 
   @Prop()
-  tags: TTag[];
+  tags: TEpisodeTag[];
 
   @Prop()
   imageCover: string;
