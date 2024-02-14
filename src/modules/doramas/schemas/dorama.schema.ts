@@ -28,7 +28,6 @@ export class Dorama {
   @Prop()
   synopsis: string;
 
-  // TODO Create a colection based on streaming services and url to them
   @Prop()
   whereToWatch: string[];
 

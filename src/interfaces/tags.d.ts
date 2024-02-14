@@ -1,1 +1,1 @@
-export type TTag = "Drama" | "Comedy" | "Terror"
+export type TTag = 'Drama' | 'Comedy' | 'Terror';
